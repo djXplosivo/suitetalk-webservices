@@ -1,0 +1,31 @@
+apply plugin: 'java'
+
+group 'com.netsuite.webservices'
+version = '2.0.0'
+
+compileJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': '2018.1 SuiteTalk client',
+                'Implementation-Version': version,
+                'Implementation-Vendor': 'NetSuite Inc.'
+    }
+    baseName = project.name
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+//Get dependencies from Maven central repository
+repositories {
+    mavenCentral()
+}
+
+//Project dependencies
+dependencies {
+
+}
